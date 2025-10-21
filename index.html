@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cronología — Solo Línea de Tiempo</title>
+
+  <!-- Tailwind para las utilidades usadas en las tarjetas -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+    }
+
+    /* --- Timeline Container --- */
+    .timeline-container {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 50px 0;
+      cursor: grab;
+    }
+    .timeline-container:active { cursor: grabbing; }
+
+    .timeline {
+      display: inline-flex; /* Para que el contenedor tome el ancho del contenido */
+      position: relative;
+      padding: 80px 50px;
+      align-items: center;
+    }
+
+    /* --- Línea central --- */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      top: 50%;
+      height: 4px;
+      background-color: #cbd5e0;
+      transform: translateY(-50%);
+    }
+
+    /* --- Bloque de evento --- */
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 0 40px;
+      min-width: 320px;
+    }
+
+    /* Alternancia arriba/abajo */
+    .timeline-item:nth-child(odd) { margin-bottom: 120px; }
+    .timeline-item:nth-child(even) {
+      flex-direction: column-reverse;
+      margin-top: 120px;
+    }
+
+    /* --- Punto en la línea --- */
+    .timeline-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 4px solid #f0f4f8; /* mismo fondo para crear “gap” */
+      z-index: 1;
+    }
+
+    /* --- Conector --- */
+    .timeline-connector {
+      width: 3px;
+      height: 60px; /* distancia línea -> tarjeta */
+    }
+
+    /* --- Tarjeta de evento --- */
+    .timeline-card {
+      width: 320px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 20px;
+      text-align: left;
+      white-space: normal;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .timeline-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .card-date { font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; }
+    .card-title { font-weight: 600; margin-bottom: 8px; }
+    .card-description { font-size: 0.9rem; line-height: 1.5; color: #4a5568; }
+
+    /* Etiqueta de categoría */
+    .card-category {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Scrollbar */
+    .timeline-container::-webkit-scrollbar { height: 12px; }
+    .timeline-container::-webkit-scrollbar-track { background: #e2e8f0; }
+    .timeline-container::-webkit-scrollbar-thumb {
+      background-color: #a0aec0;
+      border-radius: 10px;
+      border: 3px solid #e2e8f0;
+    }
+    .timeline-container::-webkit-scrollbar-thumb:hover { background-color: #718096; }
+
+    /* Colores por categoría */
+    .cat-mundial { background-color: #3B82F6; } /* Azul */
+    .cat-latam   { background-color: #10B981; } /* Verde */
+    .cat-teorico { background-color: #8B5CF6; } /* Violeta */
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- ======= SÓLO LA LÍNEA DE TIEMPO ======= -->
+  <div class="timeline-container">
+    <div class="timeline">
+
+      <!-- Event: Leyes de Pobres (1601 - 1834) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1601 - 1834</p>
+          <h3 class="card-title">Leyes de Pobres en Inglaterra</h3>
+          <p class="card-description">Primeros intentos estatales de regular la asistencia, clasificando a los pobres. Marcan un precedente de la intervención social.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Fundación COS (1869) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1869</p>
+          <h3 class="card-title">Fundación de la COS</h3>
+          <p class="card-description">Se funda la Charity Organization Society en Londres para profesionalizar la caridad, pilar del "Caso Social Individual".</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Darwinismo Social (1880 - 1920) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1880 - 1920</p>
+          <h3 class="card-title">Darwinismo Social y Positivismo</h3>
+          <p class="card-description">Búsqueda de legitimidad científica. El análisis se enfoca en variables socioeconómicas y morales para clasificar a los pobres.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Hull House (1889) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1889</p>
+          <h3 class="card-title">Fundación de la Hull House</h3>
+          <p class="card-description">Jane Addams funda la Hull House en Chicago, un influyente "settlement house" y centro de innovación social y comunitaria.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Primeras Escuelas (1898 - 1899) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1898 - 1899</p>
+          <h3 class="card-title">Primeras Escuelas de TS</h3>
+          <p class="card-description">Se funda la Escuela de Filantropía de NY (1898) y la primera escuela formal del mundo en Ámsterdam (1899), iniciando la formación académica.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Psicoanálisis (1900 - 1940) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1900 - 1940</p>
+          <h3 class="card-title">Psicoanálisis Freudiano</h3>
+          <p class="card-description">Giro hacia la individualización de los problemas (psiquiatrización), descontextualizando los factores estructurales.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Social Diagnosis (1917) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1917</p>
+          <h3 class="card-title">Publicación "Social Diagnosis"</h3>
+          <p class="card-description">Mary Richmond publica el primer tratado sistemático sobre la teoría y método del Trabajo Social de Casos.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Interaccionismo (1920 - 1940) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1920 - 1940</p>
+          <h3 class="card-title">Interaccionismo Simbólico</h3>
+          <p class="card-description">Promueve un enfoque contextual y relacional del sujeto ("Yo en situación" de Mary Richmond), superando el individualismo.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Primera Escuela LatAm (1925) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1925</p>
+          <h3 class="card-title">Primera Escuela de TS en LatAm</h3>
+          <p class="card-description">Se funda en Chile con influencia del modelo belga. Marca el inicio de la profesionalización en la región.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: 1er Congreso Internacional (1928) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1928</p>
+          <h3 class="card-title">1er Congreso Internacional de TS</h3>
+          <p class="card-description">Celebrado en París. Se fundan IASSW, IFSW, e ICSW.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Funcionalismo (1930 - 1960) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1930 - 1960</p>
+          <h3 class="card-title">Funcionalismo Estructural</h3>
+          <p class="card-description">La intervención se concibe como facilitadora de la adaptación de individuos y grupos al sistema social.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Expansión LatAm (1930 - 1940) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1930 - 1940</p>
+          <h3 class="card-title">Expansión Continental</h3>
+          <p class="card-description">Se crean escuelas en Argentina, México, Colombia, Brasil, etc. con un enfoque benéfico-asistencial.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Jane Addams Nobel (1931) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1931</p>
+          <h3 class="card-title">Jane Addams, Nobel de la Paz</h3>
+          <p class="card-description">Primera mujer estadounidense en recibirlo; gran visibilidad a la profesión.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Teoría de Sistemas (1950 - 1970) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1950 - 1970</p>
+          <h3 class="card-title">Teoría de Sistemas y Ecología</h3>
+          <p class="card-description">Visión holística e integradora: adaptación mutua persona–ambiente.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Hegemonía EEUU (1950s) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">Década de 1950</p>
+          <h3 class="card-title">Hegemonía del Modelo de EEUU</h3>
+          <p class="card-description">EEUU exporta globalmente los tres métodos clásicos (caso, grupo y comunidad).</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Universitarización (1950s) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">Década de 1950</p>
+          <h3 class="card-title">Universitarización y Desarrollismo</h3>
+          <p class="card-description">Escuelas se incorporan a universidades; crece influencia del modelo norteamericano.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Marxismo (1960 - 1980) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1960 - 1980</p>
+          <h3 class="card-title">Marxismo y Teoría Crítica</h3>
+          <p class="card-description">Giro estructural y político que analiza desigualdades como contradicciones del capitalismo.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Alianza para el Progreso (1961) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1961</p>
+          <h3 class="card-title">Alianza para el Progreso</h3>
+          <p class="card-description">Programa con EE.UU. que consolida dependencia teórica de métodos clásicos en la región.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Reconceptualización (1965 - 1975) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1965 - 1975</p>
+          <h3 class="card-title">Mov. de Reconceptualización</h3>
+          <p class="card-description">Autocrítica al modelo importado; búsqueda de un TS propio, incorporando marxismo y praxis política.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Dictaduras (1973 - 1980s) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1973 - 1980s</p>
+          <h3 class="card-title">Interrupción por Dictaduras</h3>
+          <p class="card-description">La Reconceptualización es interrumpida por dictaduras en el Cono Sur.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Posmodernismo (1980 - 2000) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1980 - 2000</p>
+          <h3 class="card-title">Posmodernismo y Constructivismo</h3>
+          <p class="card-description">Cuestiona verdades absolutas; introduce enfoques narrativos, colaborativos y reflexividad crítica.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+      <!-- Event: Consolidación crítica (1980 - Presente) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-latam">América Latina</div>
+          <p class="card-date text-green-600">1980 - Presente</p>
+          <h3 class="card-title">Consolidación Crítica</h3>
+          <p class="card-description">Con la redemocratización resurge un TS crítico, comprometido con justicia social y DDHH.</p>
+        </div>
+        <div class="timeline-connector cat-latam"></div>
+        <div class="timeline-dot cat-latam"></div>
+      </div>
+
+      <!-- Event: Globalización (1980 - Presente) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-mundial">Mundial</div>
+          <p class="card-date text-blue-600">1980 - Presente</p>
+          <h3 class="card-title">Desafíos de la Globalización</h3>
+          <p class="card-description">Diversificación del TS y fortalecimiento de enfoques críticos y de derechos humanos.</p>
+        </div>
+        <div class="timeline-connector cat-mundial"></div>
+        <div class="timeline-dot cat-mundial"></div>
+      </div>
+
+      <!-- Event: Decoloniales (1990 - Presente) -->
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <div class="card-category cat-teorico">Enfoque Teórico</div>
+          <p class="card-date text-violet-600">1990 - Presente</p>
+          <h3 class="card-title">Perspectivas Decoloniales</h3>
+          <p class="card-description">Desafía fundamentos eurocéntricos y demanda pluralidad epistemológica.</p>
+        </div>
+        <div class="timeline-connector cat-teorico"></div>
+        <div class="timeline-dot cat-teorico"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Arrastrar para desplazamiento horizontal (mouse)
+    const slider = document.querySelector('.timeline-container');
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.classList.add('active');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2; // velocidad
+      slider.scrollLeft = scrollLeft - walk;
+    });
+  </script>
+</body>
+</html>
